@@ -3,9 +3,10 @@
 
 #Read in Data
 setwd("~/Desktop/R Data/Analysis-Projects")
-GetData <- function() {
+GetDat <- function() {
         #read in .CSV
         dat <<- read.csv("AGDQ2016.csv")
+        dat.raw <<- dat
         
         #create POSIXlt out of time_donated
         dat$time_donated <<- strptime(dat$time_donated, "%m/%d/%Y %T")
