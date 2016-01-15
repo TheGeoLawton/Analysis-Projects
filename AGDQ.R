@@ -9,10 +9,10 @@ GetData <- function() {
         
         #create POSIXlt out of time_donated
         dat$time_donated <<- strptime(dat$time_donated, "%m/%d/%Y %T")
-}
+} #All the formulas from here on are going to take dat as input
 
-AnalyzeByHour <- function() {
-        ##Add and name Hour_of_Donation
+AnalyzeByHour <- function(dat) {
+        ##Add and name Hour_of_Donation as last column
         dat2 <- data.frame()
         print(class(dat$time_donated))
         dat2 <- cbind(dat, dat$time_donated$hour)
@@ -20,8 +20,5 @@ AnalyzeByHour <- function() {
         n[length(n)] <- "Hour_of_Donation"
         names(dat2) <- n
         
-        attach(dat2)
-        plot(Hour_of_Donation, amount_donated)
-        head(dat2)
-        
+        dat <<- dat2
 }
