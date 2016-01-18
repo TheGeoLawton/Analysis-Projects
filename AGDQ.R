@@ -13,8 +13,25 @@ GetLexicon <- function(){
 ReadLexicon <- function(AddWords=TRUE){
         #Read in the lists of positive and negative words
         positive <<- read.table("positive-words.txt", comment.char = ";")
+        names(positive) <<- "words"
+        positive$words <<- sapply(positive$words,as.character)
         negative <<- read.table("negative-words.txt", comment.char = ";")
+        names(negative) <<- "words"
+        negative$words <<- sapply(negative$words,as.character)
         
+        #AddWords decides whether or not append a list of special words
+        SpecialPositive <- list("leet","l33t","hacks")
+        SpecialNegative <- list("rekt","failfish")
+
+        
+        if(AddWords==TRUE){
+                positive2 <- c(positive$words, as.character(SpecialPositive))
+                negative2 <- c(negative$words, as.character(SpecialNegative))
+                positive <<- data.frame("words"= positive2)
+                negative <<- data.frame("words" = negative2)
+                #negative <<- negative2positive$words <<- c(positive$words, SpecialPositive)
+                #negative$words <<- c(negative$words, SpecialNegative)
+        }
 }
         
 
