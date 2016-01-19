@@ -1,6 +1,9 @@
 # Data Source: Copy of agqd_2016_data (by @minimaxir)
 # Data available for download from https://docs.google.com/spreadsheets/d/1yyfkS0jvRK1cWrQesYiBn1TMGC93lo1MqahcU3XeGIU/edit
 
+library(plyr)
+library(stringr)
+
 #Read in Data
 setwd("~/Desktop/R Data/Analysis-Projects")
 #download list of positive and negative words
@@ -72,3 +75,37 @@ AnalyzeByTime <- function(dat) {
         dat <<- dat2
 }
 
+RateSentiment <- function(sentences = dat$comment, pos=positive, neg=negative, .progress= "none") {
+        scores <<- laply(sentences, function(sentence, pos, neg){
+                #clean up sentences
+                sentence <- gsub('[[:punct:]]','',sentence)
+                sentence <- gsub('[[:cntrl:]]','',sentence)
+                sentence <- gsub('\\d+','',sentence)
+                #convert to lower
+                sentence <- tolower(sentence)
+                
+                #create list of words
+                WordList <- str_split(sentence, '\\s+')
+                
+                words <- unlist(WordList)
+                
+                #compare words to lexicon of positive and negatives
+                pos.matches <- match(words, pos)
+                message(pos.matches)
+                neg.matches <- match(words, neg)
+                
+                #match returns na or the position of the match
+                #the following turns it all into true/false
+                pos.matches <- !is.na(pos.matches)
+                #message(pos.matches)
+                neg.matches <- !is.na(neg.matches)
+                
+                #The sum of true/false is the same as counting.
+                score <- sum(pos.matches) - sum(neg.matches)
+                return(score)
+                
+        }, pos, neg, .progress=.progress)
+        
+        scores.df <- data.frame(score = scores, comment = sentences)
+        return(scores.df)
+}
