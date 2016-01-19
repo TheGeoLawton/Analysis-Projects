@@ -30,11 +30,11 @@ ReadLexicon <- function(AddWords=TRUE){
         if(AddWords==TRUE){
                 positive2 <- c(positive$words, as.character(SpecialPositive))
                 negative2 <- c(negative$words, as.character(SpecialNegative))
-                positive <<- data.frame("words"= positive2)
-                negative <<- data.frame("words" = negative2)
                 #negative <<- negative2positive$words <<- c(positive$words, SpecialPositive)
                 #negative$words <<- c(negative$words, SpecialNegative)
         }
+        positive <<- as.list(positive2)
+        negative <<- as.list(negative2)
 }
         
 
@@ -91,7 +91,7 @@ RateSentiment <- function(sentences = dat$comment, pos=positive, neg=negative, .
                 
                 #compare words to lexicon of positive and negatives
                 pos.matches <- match(words, pos)
-                message(pos.matches)
+                #message(pos.matches)
                 neg.matches <- match(words, neg)
                 
                 #match returns na or the position of the match
