@@ -75,7 +75,8 @@ AnalyzeByTime <- function(dat) {
         dat <<- dat2
 }
 
-RateSentiment <- function(sentences = dat$comment, pos=positive, neg=negative, .progress= "none") {
+RateSentiment <- function(sentences = dat$comment, pos=positive, neg=negative, .progress= "none", AppendToDat=TRUE) {
+        n = 1
         scores <<- laply(sentences, function(sentence, pos, neg){
                 #clean up sentences
                 sentence <- gsub('[[:punct:]]','',sentence)
@@ -102,10 +103,24 @@ RateSentiment <- function(sentences = dat$comment, pos=positive, neg=negative, .
                 
                 #The sum of true/false is the same as counting.
                 score <- sum(pos.matches) - sum(neg.matches)
+                if(n %% 100 == 0){
+                        print(n)
+                }
+                n <- n+1
                 return(score)
                 
         }, pos, neg, .progress=.progress)
         
         scores.df <- data.frame(score = scores, comment = sentences)
+        
+        if(AppendToDat==TRUE){
+                dat <<- cbind(dat, scores.df[1])
+        }
+        
         return(scores.df)
+}
+polarity <- function(score){
+        if(score > 0){return("positive")}
+        if(score < 0){return("negative")}
+        if(score == 0){return("neutral")}
 }
