@@ -49,6 +49,7 @@ GetDat <- function() {
         dat$time_donated <<- as.POSIXlt(dat$time_donated)
         dat$amount_donated <<- as.numeric(dat$amount_donated)
         dat <<- dat
+        dat.reset <<- dat
 } #All the formulas from here on are going to take dat as input
 
 AnalyzeByHour <- function(dat) {
