@@ -5,7 +5,7 @@ library(plyr)
 library(stringr)
 
 #Read in Data
-setwd("~/Desktop/R Data/Analysis-Projects")
+#setwd("~/Desktop/R Data/Analysis-Projects")
 #download list of positive and negative words
 GetLexicon <- function(){
         download.file("https://www.cs.uic.edu/~liub/FBS/opinion-lexicon-English.rar", "lexicon.rar")
@@ -23,18 +23,17 @@ ReadLexicon <- function(AddWords=TRUE){
         negative$words <<- sapply(negative$words,as.character)
         
         #AddWords decides whether or not append a list of special words
-        SpecialPositive <- list("leet","l33t","hacks")
-        SpecialNegative <- list("rekt","failfish")
+        SpecialPositive <- c("leet","l33t","hacks","destroy","break")
+        SpecialNegative <- c("rekt","failfish")
 
         
-        if(AddWords==TRUE){
-                positive2 <- c(positive$words, as.character(SpecialPositive))
-                negative2 <- c(negative$words, as.character(SpecialNegative))
-                #negative <<- negative2positive$words <<- c(positive$words, SpecialPositive)
-                #negative$words <<- c(negative$words, SpecialNegative)
+        if(AddWords==TRUE){ 
+                positive2 <- rbind(positive, as.character(SpecialPositive))
+                negative2 <- rbind(negative, as.character(SpecialNegative))
+                positive <<- positive2
+                negative <<- negative2
         }
-        positive <<- as.list(positive2)
-        negative <<- as.list(negative2)
+
 }
         
 
