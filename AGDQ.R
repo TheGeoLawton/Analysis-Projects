@@ -40,7 +40,7 @@ ReadLexicon <- function(AddWords=TRUE){
 GetDat <- function() {
         #read in .CSV
         library(ggplot2)
-        dat <<- read.csv("AGDQ2016.csv")
+        dat <<- read.csv("AGDQ2016.csv", quote = "\"")
         dat.raw <<- dat
         
         #create POSIXlt out of time_donated
@@ -75,7 +75,7 @@ AnalyzeByTime <- function(dat) {
         dat <<- dat2
 }
 
-RateSentiment <- function(sentences = dat$comment, pos=positive, neg=negative, .progress= "none", AppendToDat=TRUE) {
+RateSentiment <- function(sentences = dat$comment, pos=positive$words, neg=negative$words, .progress= "none", AppendToDat=TRUE) {
         n = 1
         scores <<- laply(sentences, function(sentence, pos, neg){
                 #clean up sentences
