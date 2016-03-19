@@ -40,7 +40,7 @@ ReadLexicon <- function(AddWords=TRUE){
 GetDat <- function() {
         #read in .CSV
         library(ggplot2)
-        dat <<- read.csv("AGDQ2016.csv", quote = "\"")
+        dat <<- read.csv("AGDQ2016v2.csv")
         dat.raw <<- dat
         
         #create POSIXlt out of time_donated
