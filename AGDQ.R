@@ -40,7 +40,7 @@ ReadLexicon <- function(AddWords=TRUE){
 GetDat <- function() {
         #read in .CSV
         library(ggplot2)
-        dat <<- read.csv("AGDQ2016v2.csv")
+        dat <<- read.csv("AGDQ2016.csv", quote="")
         dat.raw <<- dat
         
         #create POSIXlt out of time_donated
@@ -63,7 +63,7 @@ AnalyzeByHour <- function(dat) {
         dat <<- dat2
 }
 
-AnalyzeByTime <- function(dat) {
+AnalyzeByTime <- function(dat=dat) {
         ##Add and name Hour_of_Donation as last column
         dat2 <- data.frame()
         print(class(dat$time_donated))
